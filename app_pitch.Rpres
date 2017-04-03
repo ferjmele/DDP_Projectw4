@@ -1,0 +1,62 @@
+Developing Data Products Course Project
+========================================================
+by ferjmele
+
+
+## Buenos Aires Province Counties in Argentina
+
+
+issued : 4-3-2017
+
+
+Introduction
+========================================================
+
+
+This presentation is part of the DDP Course Project.
+
+It was generated using R Presenter.
+
+The application pitched can be accessed and used in the following link: [https://ferjmele.shinyapps.io/ferjmele_project/](https://ferjmele.shinyapps.io/ferjmele_project/)
+
+The code of the application can be found at [https://github.com/ferjmele/DDP_Projectw4](https://github.com/ferjmele/DDP_Projectw4)
+
+
+App functions and how to use it
+========================================================
+
+The application allows the user to analyze Area and Population of
+Buenos Aires Province in Argentina, by Counties. By selecting a population threshold (minimum), a plot showing Population and Area of counties with Population greater than threshold is displayed.
+
+The application also calculates average area and population of selected counties, displays the results and adds average lines to plot. This helps to analyze how population and area (and therefore density) is distributed along counties.
+
+Case example
+========================================================
+
+#### Taking 100.000 threshold as example, the following code shows how values are calculated and plotted:
+
+```{r, echo=FALSE}
+options(scipen=999)
+```
+
+```{r, echo=TRUE, size="tiny"}
+base<-read.csv("BasePBA.csv", header=FALSE)
+names(base)<-c("County", "long", "lat", "Population", "Category", "Superficie")
+base<-base[base$Population>=100000,c(4,6)]
+avg_pop<-round(mean(base$Population),digits=1)
+avg_area<-round(mean(base$Superficie), digits=1)
+```
+
+#### Average Population of counties above threshold is `r avg_pop`
+
+#### Average Area of counties above threshold (km2) is `r avg_area`
+
+
+Case Sample (cont)
+========================================================
+
+```{r, echo=TRUE, fig.height=4, fig.width=10}
+plot(base$Population,base$Superficie, xlab="Population", ylab="Area (km2)", main="Population vs Area of Counties above threshold")
+abline(v=mean(base$Population),col="red", lwd=2)
+abline(h=mean(base$Superficie), col="blue", lwd=2)
+```
